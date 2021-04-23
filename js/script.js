@@ -41,6 +41,7 @@ const optArticleSelector = '.post',
   optCloudClassPrefix = 'tag-size-',
   optTitleListSelector = '.titles';
 
+
 function generateTitleLinks(customSelector = ''){
   /* remove contents of titleList */
   /* ... */
@@ -77,7 +78,8 @@ function generateTitleLinks(customSelector = ''){
     link.addEventListener('click', titleClickHandler);
   }
 }
-// generateTitleLinks();
+generateTitleLinks();
+
 function calculateTagsParams(tags){
   const params = {max : 0, min : 999999};
   for(let tag in tags){
@@ -91,6 +93,17 @@ function calculateTagsParams(tags){
   }
   return params;
 }
+
+function calculateTagClass(count, params){
+  const normalizedCount = count - params.min;
+  const normalizedMax = params.max - params.min;
+  const percentage = normalizedCount / normalizedMax;
+  const classNumber = Math.floor( percentage * (optCloudClassCount - 1) + 1 );
+  console.log(classNumber);
+  const classPrefix = optCloudClassPrefix + classNumber;
+  return classPrefix;
+}
+
 function generateTags(){
   let allTags = {};
   /* find all articles */
@@ -136,18 +149,17 @@ function generateTags(){
   console.log(allTags);
   console.log('brzoza jak mnie słyszysz');
   const tagsParams = calculateTagsParams(allTags);
-  console.log('tagsParams', tagsParams)
+  console.log('tagsParams', tagsParams);
   let allTagsHtml = '';
-
   for(let tag in allTags){
-    allTagsHtml += '<li><a href=#tag-' + tag + '>' + tag + ' (' + allTags[tag] + ')</a></li>';
+    const tagLinkHtml = '<li><a href=#tag-' + tag + ' class="' + calculateTagClass(allTags[tag], tagsParams) + '">' + tag + ' (' + allTags[tag] + ')</a></li>';
+    console.log(tagLinkHtml);
+    allTagsHtml +=  tagLinkHtml;
   }
   console.log(allTagsHtml);
-    
   tagList.innerHTML = allTagsHtml;
-    
 }
-calculateTagClass(count, params);
+
 generateTags();
 
 function tagClickHandler(event){
