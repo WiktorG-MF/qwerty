@@ -1,0 +1,44 @@
+{
+  "name": "task-runner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "init-project": "npm install --save-dev browser-sync && npm install --save-dev html-validate && npm-run-all init:*",
+    "init:dirs": "mkdir sass css vendor images js",
+    "init:files": "touch REDME.md index.html sass/style.scss js/script.js",
+    "init:gitignore": "curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore -o .gitignore",
+    "test": "npm-run-all test:*",
+    "test:html": "html-validate *.html",
+    "test:js": "eslint js/",
+    "test:scss": "stylelint sass/",
+    "build": "npm-run-all build:* test",
+    "build:sass": "node-sass --output-style compact -o css sass",
+    "build:autoprefixer": "postcss css/*.css --use autoprefixer -d css",
+    "build-dev": "npm-run-all build:autoprefixer build-dev:sass",
+    "build-dev:sass": "node-sass --output-style expanded --source-map true -o css sass",
+    "watch": "npm-run-all build build-dev -p watch:*",
+    "watch:eslint": "eslint-watch --watch --changed --clear",
+    "watch:browsersync": "browser-sync start --server --files \"css/*.css\" \"*.html\" \"js/*.js\"",
+    "watch:sassprefikser": "onchange sass/*.scss -- npm run build-dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.2.4",
+    "browser-sync": "^2.26.14",
+    "eslint": "^7.24.0",
+    "eslint-plugin-react": "^7.23.1",
+    "eslint-plugin-vue": "^7.8.0",
+    "html-validate": "^4.7.1",
+    "node-sass": "^5.0.0",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^7.1.0",
+    "postcss": "^8.2.6",
+    "postcss-cli": "^8.3.1"
+  },
+  "dependencies": {
+    "eslint-watch": "^7.0.0"
+  }
+}
