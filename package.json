@@ -39,6 +39,7 @@
     "postcss-cli": "^8.3.1"
   },
   "dependencies": {
-    "eslint-watch": "^7.0.0"
+    "eslint-watch": "^7.0.0",
+    "handlebars": "^4.7.7"
   }
 }
